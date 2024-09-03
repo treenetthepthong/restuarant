@@ -1,11 +1,11 @@
-<h2>จองโต๊ะ</h2>
+<h2><i class="bi bi-calendar-check"></i> จองโต๊ะ</h2>
 <hr />
 <div class="row">
   <div class="col-3"></div>
   <div class="col-9">
     <!-- restaurant-reservation.component.html -->
     <div class="container mt-5">
-      <h2 class="mb-4">Restaurant Table Reservation</h2>
+      <h2 class="mb-4">กรุณากรอกข้อมูลสำหรับการจองให้ครบถ้วน</h2>
       <form
         [formGroup]="reservationForm"
         (ngSubmit)="onSubmit()"
@@ -13,7 +13,7 @@
         novalidate
       >
         <div class="mb-3">
-          <label for="name" class="form-label">Name</label>
+          <label for="name" class="form-label">ชื่อลูกค้า</label>
           <input
             id="name"
             type="text"
@@ -32,12 +32,12 @@
               reservationForm.get('name').touched
             "
           >
-            Name is required.
+            กรุณากรอกข้อมูลชื่อลูกค้า
           </div>
         </div>
 
         <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
+          <label for="email" class="form-label">อีเมล์สำหรับยืนยันการจอง</label>
           <input
             id="email"
             type="email"
@@ -56,12 +56,12 @@
               reservationForm.get('email').touched
             "
           >
-            Please enter a valid email address.
+            กรุณากรอกข้อมูลอีเมล์ลูกค้า
           </div>
         </div>
 
         <div class="mb-3">
-          <label for="phone" class="form-label">Phone</label>
+          <label for="phone" class="form-label">หมายเลขเบอร์โทรศัพท์</label>
           <input
             id="phone"
             type="tel"
@@ -80,13 +80,13 @@
               reservationForm.get('phone').touched
             "
           >
-            Phone number is required.
+            กรุณากรอกข้อมูลเบอร์โทรศัพท์
           </div>
         </div>
 
         <div class="row">
           <div class="col-md-6 mb-3">
-            <label for="date" class="form-label">Date</label>
+            <label for="date" class="form-label">วันที่จอง</label>
             <input
               id="date"
               type="date"
@@ -105,12 +105,12 @@
                 reservationForm.get('date').touched
               "
             >
-              Date is required.
+              กรุณากำหนดวันที่ต้องการจอง
             </div>
           </div>
 
           <div class="col-md-6 mb-3">
-            <label for="time" class="form-label">Time</label>
+            <label for="time" class="form-label">เวลา</label>
             <input
               id="time"
               type="time"
@@ -129,13 +129,13 @@
                 reservationForm.get('time').touched
               "
             >
-              Time is required.
+              กรุณากำหนดเวลาที่ต้องการจอง
             </div>
           </div>
         </div>
 
         <div class="mb-3">
-          <label for="guests" class="form-label">Number of Guests</label>
+          <label for="guests" class="form-label">จำนวนแขก</label>
           <input
             id="guests"
             type="number"
@@ -155,13 +155,13 @@
               reservationForm.get('guests').touched
             "
           >
-            Please enter a valid number of guests (minimum 1).
+            กรุณากรอกข้อมูลจำนวนลูกค้า (ไม่น้อยกว่า 1 ท่าน)
           </div>
         </div>
 
         <div class="mb-3">
           <label for="specialRequests" class="form-label"
-            >Special Requests</label
+            >ความต้องการเฉพาะ</label
           >
           <textarea
             id="specialRequests"
@@ -176,7 +176,7 @@
           class="btn btn-primary"
           [disabled]="reservationForm.invalid"
         >
-          Submit Reservation
+          ยืนยันการจอง
         </button>
       </form>
     </div>
