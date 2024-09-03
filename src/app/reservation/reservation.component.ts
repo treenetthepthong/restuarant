@@ -26,9 +26,9 @@ export class ReservationComponent implements OnInit {
   onSubmit() {
     if (this.reservationForm.valid) {
       console.log(this.reservationForm.value);
-      // Here you would typically send the form data to a server
+      
     } else {
-      // Mark all fields as touched to trigger validation messages
+
       Object.keys(this.reservationForm.controls).forEach((key) => {
         const control = this.reservationForm.get(key);
         if (control) {
