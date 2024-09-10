@@ -13,8 +13,6 @@ yarn-error.log
 
 # Node in express
 /restuarant-api/node_modules
-/restuarant-api/bin
-/restuarant-api/views
 
 # IDEs and editors
 .idea/
