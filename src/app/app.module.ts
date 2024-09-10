@@ -11,6 +11,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './admin/login/login.component';
 import { ManageComponent } from './admin/manage/manage.component';
 import { ReservationComponent } from './reservation/reservation.component';
+import { UsersService } from './services/users.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -27,9 +29,11 @@ import { ReservationComponent } from './reservation/reservation.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
+    UsersService,
     provideClientHydration()
   ],
   bootstrap: [AppComponent]

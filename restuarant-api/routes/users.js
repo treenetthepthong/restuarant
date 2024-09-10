@@ -7,7 +7,7 @@ router.get("/", function (req, res, next) {
 });
 
 router.post("/login-fixed", function (req, res, next) {
-  if (req.body.username === "admin" && req.body.password === "admin") {
+  if (req.body.username === "test@x.com" && req.body.password === "1234") {
     return res.status(200).json({ data: "login success" });
   } else {
     return res.status(200).json({ data: "login failed" });
