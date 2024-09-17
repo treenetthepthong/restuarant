@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
       
       this.userService.getUserDB(this.loginForm.value['username'], this.loginForm.value['password']).subscribe((data) => {
 
-        if (localStorage.getItem('username') !== '' || localStorage.getItem('username') !== null) {
+        if (localStorage.getItem('username') !== '' && localStorage.getItem('username') !== null) {
           
           Swal.fire({
             icon: 'success',
@@ -38,6 +38,12 @@ export class LoginComponent implements OnInit {
             }
           });
           
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
+            showConfirmButton: true
+          });
         }
         
       });

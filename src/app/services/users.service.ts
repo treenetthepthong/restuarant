@@ -41,11 +41,13 @@ export class UsersService {
         tap((response) => {
           // console.log(JSON.parse(response).data);
           
-          var username = JSON.parse(response).data.recordsets[0][0].email;
-
           if (JSON.parse(response).data.recordsets[0].length === 1) {
+            var username = JSON.parse(response).data.recordsets[0][0].email;
+
             // register the user in the local storage
             localStorage.setItem('username', username);
+          } else {
+            localStorage.setItem('username', '');
           }
         })
       );
