@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
 import { Router } from '@angular/router';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,11 +22,22 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
-      this.userService.getUsers(this.loginForm.value['username'], this.loginForm.value['password']).subscribe((data) => {
+      
+      this.userService.getUserDB(this.loginForm.value['username'], this.loginForm.value['password']).subscribe((data) => {
+
         if (localStorage.getItem('username') !== '' || localStorage.getItem('username') !== null) {
-          console.log('Login successful');
-          this.router.navigate(['/admin/manage']);
+          
+          Swal.fire({
+            icon: 'success',
+            title: 'ยินดีต้อนรับเข้าสู่ระบบ',
+            showConfirmButton: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Navigate to the desired component
+              window.location.reload()
+            }
+          });
+          
         }
         
       });

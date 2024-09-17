@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // middleware for routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/reservation-api', restuarantRouter);
+app.use('/reservation', restuarantRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

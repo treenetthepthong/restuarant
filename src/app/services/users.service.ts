@@ -29,4 +29,25 @@ export class UsersService {
         })
       );
   }
+
+  getUserDB(username: string, password: string): Observable<string> {
+    return this.http
+      .post(
+        `${this.url}/login`,
+        { username: username, password: password },
+        { responseType: 'text' }
+      )
+      .pipe(
+        tap((response) => {
+          // console.log(JSON.parse(response).data);
+          
+          var username = JSON.parse(response).data.recordsets[0][0].email;
+
+          if (JSON.parse(response).data.recordsets[0].length === 1) {
+            // register the user in the local storage
+            localStorage.setItem('username', username);
+          }
+        })
+      );
+  }
 }
