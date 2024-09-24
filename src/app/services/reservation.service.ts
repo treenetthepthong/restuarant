@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { response } from 'express';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({
@@ -40,11 +41,28 @@ export class ReservationService {
       );
   }
 
-  getReservations(): Observable<any> {
-    return this.http.get(`${this.url}/getReservations`).pipe(
+  getAllReservations(): Observable<any> {
+    return this.http.get(`${this.url}/getAllReservation`).pipe(
       tap((response) => {
         console.log(response);
       })
     );
   }
+
+  getReservation(id: string): Observable<any> {
+    return this.http.get(`${this.url}/getReservation/${id}`).pipe(
+      tap((response) => {
+        console.log(response);
+      })
+    );
+  }
+
+  deleteReservation(id: string): Observable<any> {
+    return this.http.delete(`${this.url}/deleteReservation/${id}`).pipe(
+      tap((response) => {
+        console.log(response);
+      })
+    );
+  }
+  
 }

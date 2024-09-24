@@ -39,8 +39,6 @@ export class UsersService {
       )
       .pipe(
         tap((response) => {
-          // console.log(JSON.parse(response).data);
-          
           if (JSON.parse(response).data.recordsets[0].length === 1) {
             var username = JSON.parse(response).data.recordsets[0][0].email;
 

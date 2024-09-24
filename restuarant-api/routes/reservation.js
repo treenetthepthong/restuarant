@@ -4,10 +4,50 @@ var config = require("../config/dbconfig");
 const sql = require("mssql");
 
 /* GET reservation listing. */
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: for the test the api is still alive?
+ *     responses:
+ *       200:
+ *         description: A successful response
+ */
 router.get("/", function (req, res, next) {
   res.send("respond with a resource");
 });
 
+// the endpoint for adding a new reservation
+/**
+ * @swagger
+ * /reservation/addReservation:
+ *   post:
+ *     summary: Add a new reservation
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *               guests:
+ *                 type: integer
+ *               specialRequests:
+ *                 type: string
+ *               reserveDate:
+ *                 type: string
+ *               reserveTime:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: A successful response
+ */
 router.post("/addReservation", async function (req, res, next) {
   try {
     let pool = await sql.connect(config);
@@ -30,7 +70,17 @@ router.post("/addReservation", async function (req, res, next) {
   }
 });
 
-router.get("/getReservation", async function (req, res, next) {
+// the endpoint for getting all reservations
+/**
+ * @swagger
+ * /reservation/getAllReservation:
+ *   get:
+ *     summary: Get all reservations
+ *     responses:
+ *       200:
+ *         description: A successful response
+ */
+router.get("/getAllReservation", async function (req, res, next) {
   try {
     let pool = await sql.connect(config);
     let result = await pool
@@ -43,6 +93,22 @@ router.get("/getReservation", async function (req, res, next) {
   }
 });
 
+// the endpoint for getting a single reservation (by id)
+/**
+ * @swagger
+ * /reservation/getReservation/{id}:
+ *   get:
+ *     summary: Get a single reservation by id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A successful response
+ */
 router.get("/getReservation/:id", async function (req, res, next) {
   try {
     let pool = await sql.connect(config);
@@ -57,6 +123,43 @@ router.get("/getReservation/:id", async function (req, res, next) {
   }
 });
 
+// the endpoint for updating a reservation (by id)
+/**
+ * @swagger
+ * /reservation/updateReservation/{id}:
+ *   put:
+ *     summary: Update a reservation by id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *               guests:
+ *                 type: integer
+ *               specialRequests:
+ *                 type: string
+ *               reserveDate:
+ *                 type: string
+ *               reserveTime:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: A successful response
+ */
 router.put("/updateReservation/:id", async function (req, res, next) {
   try {
     let pool = await sql.connect(config);
@@ -74,6 +177,72 @@ router.put("/updateReservation/:id", async function (req, res, next) {
         "UPDATE tbl_reservation_table SET name = @guestName, email = @guestEmail, tel = @guestTel, pax = @guestPax, remarks = @guestRemarks, reserve_date = @guestDate, reserve_time = CAST(@guestTime AS TIME) WHERE id = @id"
       );
     return res.status(200).json({ data: result });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ data: err });
+  }
+});
+
+// the endpoint for deleting a reservation (by id)
+/**
+ * @swagger
+ * /reservation/deleteReservation/{id}:
+ *   delete:
+ *     summary: Delete a reservation by id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A successful response
+ */
+router.delete("/deleteReservation/:id", async function (req, res, next) {
+  try {
+    let pool = await sql.connect(config);
+    let result = await pool
+      .request()
+      .input("id", sql.Int, req.params.id)
+      .query("DELETE FROM tbl_reservation_table WHERE id = @id");
+    return res.status(200).json({ data: result });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ data: err });
+  }
+});
+
+// the endpoint for getting reservations by date range
+router.get(
+  "/getReservationByStartDateEndDate/:startDate/:endDate",
+  async function (req, res, next) {
+    try {
+      let pool = await sql.connect(config);
+      let result = await pool
+        .request()
+        .input("startDate", sql.Date, req.params.startDate)
+        .input("endDate", sql.Date, req.params.endDate)
+        .query(
+          "SELECT * FROM tbl_reservation_table WHERE reserve_date BETWEEN @startDate AND @endDate"
+        );
+      return res.status(200).json({ data: result.recordset });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ data: err });
+    }
+  }
+);
+
+// the endpoint for getting reservations by phone number
+router.get("/getReservationByPhone/:phone", async function (req, res, next) {
+  try {
+    let pool = await sql.connect(config);
+    let result = await pool
+      .request()
+      .input("phone", sql.VarChar, req.params.phone)
+      .query("SELECT * FROM tbl_reservation_table WHERE tel = @phone");
+    return res.status(200).json({ data: result.recordset });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ data: err });
